@@ -1,0 +1,19 @@
+.scrollable {
+  overflow: auto;
+}
+
+@media (max-height: 760px) {
+  .scrollable {
+    max-height: 560px;
+  }
+}
+
+@media (max-height: 1080px) {
+  .scrollable {
+    max-height: 800px;
+  } 
+}
+
+.modal-xl {
+  max-width: 100%;
+}

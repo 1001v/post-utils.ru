@@ -1,0 +1,44 @@
+@import './vars.scss';
+@import '~/node_modules/bootstrap/scss/bootstrap.scss';
+@import './utils.scss';
+.navbar.navbar-justify-normal {
+  justify-content: normal;
+}
+
+.list-group-menu .list-group-item {
+  border-radius: 0px;
+}
+
+.print-container {
+  display: none;
+  page-break-after: avoid;
+  .page {
+    page-break-after: always;
+    display: block;
+    img {
+      width: 100%;
+    }
+  }
+  .page:last-child {
+    page-break-after: avoid;
+  }
+}
+
+@media print {
+  /* здесь будут стили для печати */
+  * {
+    margin: 0px 0px 0px 0px !important;
+    padding: 0px 0px 0px 0px !important;
+  }
+  body {
+    visibility: hidden;
+    height: 99% !important;
+  }
+  #__nuxt {
+    display: none;
+  }
+  .print-container {
+    display: block;
+    visibility: visible;
+  }
+}
