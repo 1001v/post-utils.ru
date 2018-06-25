@@ -6,7 +6,7 @@
 
 export default {
   asyncData(context) {
-    return context.redirect('/about')
+    return context.redirect('/f20')
   }
 
 }

@@ -50,7 +50,8 @@ module.exports = {
 
   plugins: [
     { src: '~/plugins/vendor', ssr: false },
-    { src: '~/plugins/sprites', ssr: false }
+    { src: '~/plugins/sprites', ssr: false },
+    { src: '~/plugins/startup', ssr: false }
   ],
   /*
    ** Build configuration

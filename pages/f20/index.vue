@@ -40,9 +40,11 @@
         <b-input-group :class="{ invisible: selectedMode === 1 }">
           <b-form-select v-model="selectedOperator" :options="operators" class="mb-3 mt-2" />
           <b-input-group-append class="mb-3 mt-2">
-            <b-btn title="Добавить фамилию сотрудника в программу" variant="outline-success">
-              <i class="fa fa-fw fa-plus"></i>
-            </b-btn>
+            <nuxt-link to="/settings">
+              <b-btn title="Добавить сотрудника в программу" variant="outline-success">
+                <i class="fa fa-fw fa-plus"></i>
+              </b-btn>
+            </nuxt-link>
           </b-input-group-append>
         </b-input-group>
 
@@ -122,6 +124,8 @@ import F20 from '~/components/f20.vue'
 import F20List from '~/components/f20list.vue'
 
 export default {
+  middleware: 'storage',
+
   components: {
     F20,
     F20List
@@ -148,10 +152,10 @@ export default {
         { text: "Передняя часть", value: 1 },
         { text: "Задняя часть", value: 2 }
       ],
-      operators: [
+      operators: this.$store.getters.selectPeople/*[
         { value: undefined, text: 'Сотрудник не выбран' },
         { value: 1, text: 'опер. 1 кл. Дубинин А.О.' },
-      ]
+      ]*/
     }
   },
 

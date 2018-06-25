@@ -20,7 +20,6 @@
             <nuxt-link class="list-group-item list-group-item-action" to="/vedomost">Ведомость учета МЖД</nuxt-link>
             <nuxt-link class="list-group-item list-group-item-action" to="/help">Помощь</nuxt-link>
             <nuxt-link class="list-group-item list-group-item-action" to="/settings">Настройки</nuxt-link>
-            <nuxt-link class="list-group-item list-group-item-action" to="/download">Скачать программу</nuxt-link>
             <nuxt-link class="list-group-item list-group-item-action" to="/about">О программе</nuxt-link>
           </div>
         </div>
