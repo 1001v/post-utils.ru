@@ -33,7 +33,8 @@ module.exports = {
 
 
   router: {
-    linkActiveClass: 'active'
+    linkActiveClass: 'active',
+    middleware: 'clearPrintContainer'
   },
 
   css: [

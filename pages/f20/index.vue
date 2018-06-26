@@ -2,7 +2,7 @@
   <div>
     <div class="row">
       <div class="col-6 border rounded py-4 text-center" ref="previewCol">
-        <h5>Ввод данных</h5>
+        <h5 class="pb-2">Ввод данных</h5>
         <div>
           <b-form-radio-group buttons button-variant="outline-primary" v-model="selectedMode" :options="modes" />
         </div>
@@ -54,7 +54,7 @@
           </button>
         </div>
         <hr/>
-        <h5 class="mt-2">Предварительный просмотр</h5>
+        <h5 class="py-2">Предварительный просмотр</h5>
         <!--<p>{{text}}</p>-->
         <f20 v-show="selectedMode !== 2" :item="getFrontData" mode="front" :width="previewFrontWidth" />
         <f20 v-show="selectedMode !== 1" :item="getBackData" mode="back" :width="previewBackWidth" />
@@ -152,10 +152,7 @@ export default {
         { text: "Передняя часть", value: 1 },
         { text: "Задняя часть", value: 2 }
       ],
-      operators: this.$store.getters.selectPeople/*[
-        { value: undefined, text: 'Сотрудник не выбран' },
-        { value: 1, text: 'опер. 1 кл. Дубинин А.О.' },
-      ]*/
+      operators: this.$store.getters.selectPeople
     }
   },
 

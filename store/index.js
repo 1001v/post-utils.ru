@@ -7,6 +7,9 @@ const store = () => new Vuex.Store({
 
   state: {
     people: [],
+    opsNumber: '',
+    savedDest: [],
+    saveDest: true,
     storageInited: false
   },
 
@@ -27,43 +30,77 @@ const store = () => new Vuex.Store({
       deletePerson(state, id) {
         state.people.splice(id, 1)
       },
-      setPeople(state, people) {
-        state.people = people
+      addDest(state, dest) {
+        state.savedDest.push(dest)
+      },
+      deleteDest(state, id) {
+        state.savedDest.splice(id, 1)
+      },
+      setSaveDestState(state, value) {
+        state.saveDest = value
+      },
+      saveOpsNumber(state, number) {
+        state.opsNumber = number
+      },
+      setData(state, data) {
+        Object.keys(data).forEach(key => state[key] = data[key])
       },
       setStorageState(state, value) {
         state.storageInited = value
       }
   },
   actions: {
+      saveOpsNumber(context, number) {
+        context.commit('saveOpsNumber', number)
+        context.dispatch('saveData')
+      },
       addPerson(context, { name, position }) {
         context.commit('addPerson', { name, position })
-        context.dispatch('savePeople')
+        context.dispatch('saveData')
       },
       deletePerson(context, id) {
         context.commit('deletePerson', id)
-        context.dispatch('savePeople')
+        context.dispatch('saveData')
       },
-      loadPeople(context) {
-        let people = []
+      addDest(context, dest) {
+        if (context.state.savedDest.includes(dest)) {
+          return
+        }
+        context.commit('addDest', dest)
+        context.dispatch('saveData')
+      },
+      toggleSaveDest(context, value) {
+        if (value === context.state.saveDest) {
+          return
+        }
+        context.commit('setSaveDestState', value)
+        context.dispatch('saveData')
+      },
+      deleteDest(context, id) {
+        context.commit('deleteDest', id)
+        context.dispatch('saveData')
+      },
+      loadData(context) {
+        let data = {}
         try {
-            let ls = localStorage.getItem('people')
+            let ls = localStorage.getItem('data')
             if (!ls) {
               throw new Error('localStorage is empty')
             }
-            people = JSON.parse(ls)
+            data = JSON.parse(ls)
         } catch(e) {
-            people = []
-            localStorage.setItem('people', JSON.stringify([]))
+            data = { people: [], opsNumber: '', savedDest: [], saveDest: true }
+            localStorage.setItem('data', JSON.stringify({ people: [], opsNumber: '', savedDest: [], saveDest: true }))
         }
-        context.commit('setPeople', people)
+        context.commit('setData', data)
       },
-      savePeople(context) {
-        localStorage.setItem('people', JSON.stringify(context.state.people))
+      saveData(context) {
+        localStorage.setItem('data', JSON.stringify(context.state))
       },
 
       initStorage(context) {
         if (!context.state.storageInited) {
-          context.dispatch('loadPeople')
+          context.dispatch('loadData')
           context.commit('setStorageState', true)
         }
       }
