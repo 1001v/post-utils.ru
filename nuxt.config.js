@@ -58,6 +58,14 @@ module.exports = {
    ** Build configuration
    */
   build: {
+
+    vendor: [
+        'babel-polyfill', 'eventsource-polyfill'
+    ],
+
+    babel: {
+      presets: [['vue-app', { useBuiltIns: true }]]
+    },
     /*
      ** Run ESLint on save
      */
