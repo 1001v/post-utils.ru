@@ -7,6 +7,7 @@
         </div>
         <v-stage :ref="`list-${i}`" v-show="false" v-for="(list, i) in lists" :key="i + 'listStage'" :config="{ width: 1318, height: 1864 }">
             <v-layer>
+                <v-rect :config="{ x: 0, y: 0, fill: 'white', width: 1318, height: 1864}"></v-rect>
                 <template v-if="mode === 0">
                     <v-image v-for="(front, j) in list" :key="j + 'bothFront'" :config="{ y: j * 233, x: 0, image: front['image_front'] }"></v-image>
                     <v-image v-for="(back, k) in list" :key="k + 'bothBack'" :config="{ y: k * 233, x: 552, image: back['image_back'] }"></v-image>
@@ -40,7 +41,8 @@ export default {
             this.lists.forEach((list, index) => {
                 let self = this
                 this.$refs[`list-${index}`][0].getStage().toImage({
-                    width: 659, height: 932, callback(image) {
+                    width: 1318, height: 1864, mimeType: 'image/jpeg', quality: 0.5, callback(image) {
+                        console.log(image.src.length / 1024)
                         self.images.push(image)
                         self.printContent(image)
                     }
