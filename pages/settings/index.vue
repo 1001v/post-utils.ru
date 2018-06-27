@@ -27,7 +27,7 @@
             </b-row>
           </b-container>
           <h5 class="mt-3">Список сотрудников ОПС</h5>
-          <table class="table">
+          <table class="table table-striped">
             <thead>
               <tr>
                 <th scope="col">#</th>
@@ -70,6 +70,44 @@
               </b-col>
             </b-row>
           </b-container>
+          <h5 class="mt-2">Добавление улиц</h5>
+          <p>Сохраненный список улиц в зоне обслуживания ОПС используется для их быстрого выбора из списка при вводе данных.</p>
+          <b-alert show v-if="$store.state.streets.includes(street)" variant="warning">Данная улица уже сохранена в списке</b-alert>
+          <b-container>
+            <b-row>
+              <b-col lg="10">
+                <b-input-group prepend="Улица">
+                  <b-form-input v-model="street" placeholder="Мясницкая ул." type="text" />
+                </b-input-group>
+              </b-col>
+              <b-col lg="2">
+                <b-btn :disabled="!street || $store.state.streets.includes(street)" @click="addStreet()" variant="primary">Добавить
+                  <i class="fa fa-fw fa-plus"></i>
+                </b-btn>
+              </b-col>
+            </b-row>
+          </b-container>
+          <h5 class="mt-3">Список улиц</h5>
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Улица</th>
+                <th scope="col"></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="(street, index) in $store.state.streets" :key="index + 'savedStreets'">
+                <th scope="row">{{ index + 1}}</th>
+                <td>{{street}}</td>
+                <td>
+                  <button @click="deleteStreet(index)" class="btn btn-sm text-white btn-warning">Удалить
+                    <i class="fa fa-fw fa-minus"></i>
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
         </b-tab>
         <b-tab title="Направления">
           <h5>Автоматически сохранять направления</h5>
@@ -98,7 +136,7 @@
             </b-row>
           </b-container>
           <h5 class="mt-3">Список направлений</h5>
-          <table class="table">
+          <table class="table table-striped">
             <thead>
               <tr>
                 <th scope="col">#</th>
@@ -151,6 +189,7 @@ export default {
       position: '',
       saveDest: this.$store.state.saveDest,
       dest: '',
+      street: '',
       opsNumber: this.$store.state.opsNumber
     }
   },
@@ -177,6 +216,16 @@ export default {
     },
     deleteDest(index) {
       this.$store.dispatch('deleteDest', index)
+    },
+    addStreet() {
+      if (!this.street) {
+        return
+      }
+      this.$store.dispatch('addStreet', this.street)
+      this.street = ''
+    },
+    deleteStreet(index) {
+      this.$store.dispatch('deleteStreet', index)
     },
     toggleSaveDest() {
       this.$store.dispatch('toggleSaveDest', this.saveDest)

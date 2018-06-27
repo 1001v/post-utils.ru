@@ -4,7 +4,7 @@ module.exports = {
    ** Headers of the page
    */
   head: {
-    title: 'Почтовые утилиты',
+    title: 'Печать почтовых бланков',
     meta: [{
         charset: 'utf-8'
       },

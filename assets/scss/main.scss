@@ -23,7 +23,8 @@
     page-break-after: avoid;
   }
   .page.vedomost {
-    display: flex; justify-content:space-around;
+    display: flex;
+    justify-content: space-around;
   }
 }
 
@@ -37,11 +38,67 @@
     visibility: hidden;
     height: 99% !important;
   }
-  #__nuxt {
-    display: none;
+  body.with-print-container {
+    #__nuxt {
+      display: none;
+    }
+  }
+  body:not(.with-print-container) {
+    .main-menu {
+      display: none;
+    }
+    .nuxt-wrapper {
+      width: 100%;
+      max-width: 100%;
+      flex: 0 0 100%;
+    }
+    .mb-2 {
+      margin-bottom: 0px !important;
+    }
   }
   .print-container {
     display: block;
     visibility: visible;
   }
+  .dm-print {
+    .scrollable {
+      overflow: visible;
+    }
+
+    visibility: visible;
+    flex: 0 0 100%;
+    max-width: 100%;
+    width: 100%;
+    padding: 10px 25px 25px 25px !important;
+    table {
+      border: none;
+      border-collapse: collapse;
+    }
+    table td, table th {
+      border: 1px solid #000;
+    }
+    .control {
+      display: none;
+    }
+    .card {
+      border: 0px;
+    }
+    h5 {
+      font-weight: bold;
+      font-size: 30px;
+    }
+    p {
+      font-weight: bold;
+    }
+    top: 0px;
+    left: 0px;
+    position: absolute;
+    overflow-y: visible;
+  }
+}
+
+
+.streets-list {
+  max-height: 200px;
+  overflow-y: scroll;
 }

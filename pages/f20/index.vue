@@ -84,7 +84,7 @@
           </button>
         </div>
         <div class="scrollable">
-          <table class="table">
+          <table class="table table-striped">
             <thead>
               <tr>
                 <th scope="col">#</th>
@@ -124,6 +124,13 @@ import F20 from '~/components/f20.vue'
 import F20List from '~/components/f20list.vue'
 
 export default {
+
+  head: {
+    bodyAttrs: {
+      class: 'with-print-container'
+    }
+  },
+
   middleware: 'storage',
 
   components: {

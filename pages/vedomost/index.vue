@@ -85,7 +85,10 @@ export default {
   head: {
     style: [
       { cssText: '@media print{@page {size: landscape}}', type: 'text/css' }
-    ]
+    ],
+    bodyAttrs: {
+      class: 'with-print-container'
+    }
   },
 
   data() {

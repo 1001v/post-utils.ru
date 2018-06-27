@@ -7,6 +7,7 @@ const store = () => new Vuex.Store({
 
   state: {
     people: [],
+    streets: [],
     opsNumber: '',
     savedDest: [],
     saveDest: true,
@@ -35,6 +36,12 @@ const store = () => new Vuex.Store({
       },
       deleteDest(state, id) {
         state.savedDest.splice(id, 1)
+      },
+      addStreet(state, street) {
+        state.streets.push(street)
+      },
+      deleteStreet(state, id) {
+        state.streets.splice(id, 1)
       },
       setSaveDestState(state, value) {
         state.saveDest = value
@@ -80,6 +87,17 @@ const store = () => new Vuex.Store({
         context.commit('deleteDest', id)
         context.dispatch('saveData')
       },
+      addStreet(context, street) {
+        if (context.state.streets.includes(street)) {
+          return
+        }
+        context.commit('addStreet', street)
+        context.dispatch('saveData')
+      },
+      deleteStreet(context, id) {
+        context.commit('deleteStreet', id)
+        context.dispatch('saveData')
+      },
       loadData(context) {
         let data = {}
         try {
@@ -89,8 +107,8 @@ const store = () => new Vuex.Store({
             }
             data = JSON.parse(ls)
         } catch(e) {
-            data = { people: [], opsNumber: '', savedDest: [], saveDest: true }
-            localStorage.setItem('data', JSON.stringify({ people: [], opsNumber: '', savedDest: [], saveDest: true }))
+            data = { people: [], opsNumber: '', savedDest: [], saveDest: true, streets: [] }
+            localStorage.setItem('data', JSON.stringify({ people: [], opsNumber: '', savedDest: [], saveDest: true, streets: [] }))
         }
         context.commit('setData', data)
       },
