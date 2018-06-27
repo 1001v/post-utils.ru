@@ -40,7 +40,7 @@ export default {
             this.lists.forEach((list, index) => {
                 let self = this
                 this.$refs[`list-${index}`][0].getStage().toImage({
-                    width: 1318, height: 1864, callback(image) {
+                    width: 659, height: 932, callback(image) {
                         self.images.push(image)
                         self.printContent(image)
                     }
