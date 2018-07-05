@@ -127,6 +127,7 @@ export default {
           width: 880, height: 1242, callback(image) {
             self.image = image
             self.$refs.vedomostPreviewImage.children[0].src = image.src
+            self.setPrintContainer()
           }
         })
       }
@@ -152,7 +153,6 @@ export default {
       document.getElementById('printContainer').appendChild(page)
     },
     print() {
-      this.setPrintContainer()
       this.addDest()
       window.print()
     },
@@ -170,7 +170,7 @@ export default {
             ]
           }
         ],
-        pageMargins: [10, 5, 10, 0]
+        pageMargins: [0, 0, 0, 0]
       }
       pdfMake.createPdf(pdf).download('vedomost.pdf', () => this.pdfMaking = false)
     }

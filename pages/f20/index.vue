@@ -76,7 +76,7 @@
             <i class="fa fa-fw fa-print"></i>
           </button>
         </div>
-        <div class="scrollable">
+        <div ref="scrollableDiv" class="scrollable">
           <table class="table table-striped">
             <thead>
               <tr>
@@ -152,7 +152,8 @@ export default {
         { text: "Передняя часть", value: 1 },
         { text: "Задняя часть", value: 2 }
       ],
-      operators: this.$store.getters.selectPeople
+      operators: this.$store.getters.selectPeople,
+      scrollBottom: true
     }
   },
 
@@ -215,7 +216,7 @@ export default {
       }
       // В список передней
       this.currentList.push(this.getCurrentItemForList())
-
+      this.scrollBottom = true
     },
 
     getFrontDataForList() {
@@ -309,6 +310,13 @@ export default {
     // Посчитааем ширину для канваса
     this.previewFrontWidth = this.$refs.previewCol.offsetWidth - 30 < 552 ? this.$refs.previewCol.offsetWidth - 30 : 552
     this.previewBackWidth = this.$refs.previewCol.offsetWidth - 30 < 659 ? this.$refs.previewCol.offsetWidth - 30 : 659
+  },
+
+  updated() {
+    if (this.scrollBottom) {
+      this.$refs.scrollableDiv.scrollTop = this.$refs.scrollableDiv.scrollHeight
+      this.scrollBottom = false
+    }
   }
 
 }

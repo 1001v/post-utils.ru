@@ -84,7 +84,7 @@
           <div class="text-center">
             <h5 contenteditable="true">Упаковочный лист ДМ</h5>
             <p>{{description}}</p>
-            <div class="scrollable">
+            <div ref="scrollableDiv" class="scrollable">
               <table class="table table-striped">
                 <thead>
                   <tr>
@@ -140,6 +140,7 @@ export default {
       description: '',
       name: '',
       street: '',
+      scrollBottom: false,
       house: '',
       fastInput: '1 12к1 64',
       reason: '',
@@ -164,6 +165,7 @@ export default {
         this.reason = ''
       }).bind(this), 100)
       this.returnFocus()
+      this.scrollBottom = true
     },
     deleteFromList(index) {
       this.list.splice(index, 1)
@@ -228,6 +230,12 @@ export default {
     },
     address() {
       return this.selectedType ? this.parsedFastInput : `${this.street} ${this.house}`
+    }
+  },
+  updated() {
+    if (this.scrollBottom) {
+      this.$refs.scrollableDiv.scrollTop = this.$refs.scrollableDiv.scrollHeight
+      this.scrollBottom = false
     }
   }
 

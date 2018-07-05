@@ -17,6 +17,7 @@
           </div>
           <div class="list-group list-group-menu">
             <nuxt-link class="list-group-item list-group-item-action" to="/f20">ф.20 на досыл/возврат</nuxt-link>
+            <nuxt-link class="list-group-item list-group-item-action" to="/f30">ф.30 на нарушения</nuxt-link>
             <nuxt-link class="list-group-item list-group-item-action" to="/vedomost">Ведомость учета МЖД</nuxt-link>
             <nuxt-link class="list-group-item list-group-item-action" to="/dm">Упаковочный лист ДМ</nuxt-link>
             <nuxt-link class="list-group-item list-group-item-action" to="/help">Помощь</nuxt-link>

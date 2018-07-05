@@ -3,6 +3,10 @@ module.exports = {
   /*
    ** Headers of the page
    */
+  render: {
+    resourceHints: false
+  },
+
   head: {
     title: 'Печать почтовых бланков',
     meta: [{

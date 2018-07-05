@@ -1,6 +1,7 @@
 @import './vars.scss';
 @import '~/node_modules/bootstrap/scss/bootstrap.scss';
 @import './utils.scss';
+
 .navbar.navbar-justify-normal {
   justify-content: flex-start;
 }
@@ -18,7 +19,8 @@
   .page:last-child {
     page-break-after: avoid;
   }
-  .page.vedomost {
+  .page.vedomost,
+  .page.f30 {
     display: flex;
     justify-content: space-around;
   }
@@ -32,9 +34,13 @@
     font-size: 1em !important;
     line-height: 1 !important;
   }
-  body {
+  body,
+  html {
+    border: 1px solid white;
+    height: 99%;
+    page-break-after: avoid;
+    page-break-before: avoid;
     visibility: hidden;
-    height: 99% !important;
   }
   body.with-print-container {
     #__nuxt {
@@ -104,7 +110,6 @@
   overflow-y: scroll;
 }
 
-
 .custom-file-input~.custom-file-label::after {
-    content: "Обзор";
+  content: "Обзор";
 }
