@@ -60,7 +60,7 @@ module.exports = {
   build: {
 
     vendor: [
-        'babel-polyfill', 'eventsource-polyfill'
+        'babel-polyfill', 'eventsource-polyfill', '~/node_modules/pdfmake/build/pdfmake.min.js', '~/plugins/vfs_fonts.js'
     ],
 
     babel: {

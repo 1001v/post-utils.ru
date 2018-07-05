@@ -66,15 +66,19 @@
               </b-tab>
             </b-tabs>
           </b-card>
-          <div class="text-center mt-2">
-            <button onclick="window.print()" class="btn btn-success w-100">Печать листа
+          <div class="text-center mt-2 btn-group">
+            <button onclick="window.print()" class="btn btn-success">Печать листа
               <i class="fa fa-fw fa-print"></i>
+            </button>
+            <button :class="{ disabled: pdfMaking }" @click="savePdf()" class="btn btn-primary">Сохранить документ
+              <i v-if="!pdfMaking" class="fa fa-fw fa-file-pdf-o"></i>
+              <i v-if="pdfMaking" class="fa fa-fw fa-spin fa-cog"></i>
             </button>
           </div>
         </div>
       </div>
     </div>
-    <div class="col-7 dm-print">
+    <div ref="dmPrintRef" class="col-7 dm-print">
       <div class="card">
         <div class="card-body">
           <div class="text-center">
@@ -120,6 +124,7 @@
 <script>
 
 export default {
+
   middleware: 'storage',
 
   head: {
@@ -138,7 +143,8 @@ export default {
       house: '',
       fastInput: '1 12к1 64',
       reason: '',
-      list: []
+      list: [],
+      pdfMaking: false
     }
   },
 
@@ -168,6 +174,38 @@ export default {
       } else {
         this.$refs[this.selectedType ? 'fastInputForm' : 'simpleInputForm'].$el.focus()
       }
+    },
+    savePdf() {
+      this.pdfMaking = true
+      let pdf = {
+        pageOrientation: 'landscape',
+        pageSize: 'A4',
+        content: [
+          { text: "Упаковочный лист ДМ", style: 'header' }
+        ],
+        styles: {
+          header: {
+            fontSize: 22,
+            bold: true,
+            alignment: 'center'
+          }
+        },
+        pageMargins: [10, 5, 10, 0]
+      }
+      if (this.description) {
+        pdf.content.push({ text: this.description, alignment: 'center', bold: true })
+      }
+      pdf.content.push({
+        table: {
+          headerRows: 1,
+          widths: [...Array(3 + this.selectedMode)].map(x => '*'),
+          body: [
+            [{ text: 'П/н', bold: true }, ...(this.selectedMode ? [{ text: 'ФИО', bold: true }, { text: 'Адрес', bold: true }] : [{ text: 'Адрес', bold: true }]), { text: 'Причина недоставки', bold: true }]
+          ]
+        }
+      })
+      pdf.content[pdf.content.length - 1].table.body.push(...this.list.map((item, index) => [ index + 1, ...(this.selectedMode ? [item.name, item.address] : [item.address]), item.reason]))
+      pdfMake.createPdf(pdf).download('dmlist.pdf', () => this.pdfMaking = false)
     }
   },
 

@@ -2,7 +2,7 @@
 @import '~/node_modules/bootstrap/scss/bootstrap.scss';
 @import './utils.scss';
 .navbar.navbar-justify-normal {
-  justify-content: normal;
+  justify-content: flex-start;
 }
 
 .list-group-menu .list-group-item {
@@ -13,11 +13,7 @@
   display: none;
   page-break-after: avoid;
   .page {
-    page-break-after: always;
     display: block;
-    img {
-      width: 100%;
-    }
   }
   .page:last-child {
     page-break-after: avoid;
@@ -33,6 +29,8 @@
   * {
     margin: 0px 0px 0px 0px !important;
     padding: 0px 0px 0px 0px !important;
+    font-size: 1em !important;
+    line-height: 1 !important;
   }
   body {
     visibility: hidden;
@@ -57,6 +55,10 @@
     }
   }
   .print-container {
+    img {
+      width: 100%;
+      height: auto;
+    }
     display: block;
     visibility: visible;
   }
@@ -64,7 +66,6 @@
     .scrollable {
       overflow: visible;
     }
-
     visibility: visible;
     flex: 0 0 100%;
     max-width: 100%;
@@ -74,7 +75,8 @@
       border: none;
       border-collapse: collapse;
     }
-    table td, table th {
+    table td,
+    table th {
       border: 1px solid #000;
     }
     .control {
@@ -96,7 +98,6 @@
     overflow-y: visible;
   }
 }
-
 
 .streets-list {
   max-height: 200px;

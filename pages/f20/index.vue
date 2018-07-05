@@ -68,13 +68,6 @@
                 <span aria-hidden="true">&times;</span>
               </button>
             </div>
-            <div class="text-center">
-              <div class="btn-group">
-                <button onclick="window.print()" class="btn btn-success">Печать
-                  <i class="fa fa-fw fa-print"></i>
-                </button>
-              </div>
-            </div>
           </div>
           <f20-list :mode="selectedMode" :list="currentList" />
         </b-modal>
@@ -227,14 +220,14 @@ export default {
 
     getFrontDataForList() {
       let image = this.$children.filter(child => child._name === `f20_front`)[0].currentImage
-      image = image.cloneNode(true) || undefined
-      return Object.assign({ image_front: image }, this.getFrontData)
+      //image = image.cloneNode(true) || undefined
+      return Object.assign({ image_front: image.src }, this.getFrontData)
     },
 
     getBackDataForList() {
       let image = this.$children.filter(child => child._name === `f20_back`)[0].currentImage
-      image = image.cloneNode(true) || undefined
-      return Object.assign({ image_back: image }, this.getBackData)
+      //image = image.cloneNode(true) || undefined
+      return Object.assign({ image_back: image.src }, this.getBackData)
     },
 
     getCurrentItemForList() {

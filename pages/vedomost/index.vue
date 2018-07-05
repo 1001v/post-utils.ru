@@ -33,9 +33,13 @@
               </nuxt-link>
             </b-input-group-append>
           </b-input-group>
-          <div class="mt-2">
-            <button @click="print()" class="btn btn-success w-100">Печать
+          <div class="mt-2 btn-group">
+            <button @click="print()" class="btn btn-success">Печать
               <i class="fa fa-fw fa-print"></i>
+            </button>
+            <button :class="{ disabled: pdfMaking }" @click="savePdf()" class="btn btn-primary">Сохранить документ
+              <i v-if="!pdfMaking" class="fa fa-fw fa-file-pdf-o"></i>
+              <i v-if="pdfMaking" class="fa fa-fw fa-spin fa-cog"></i>
             </button>
           </div>
         </div>
@@ -46,30 +50,32 @@
         <div class="card-body">
           <h5>Предварительный просмотр</h5>
           <v-stage v-show="false" :config="{ height: 1242, width: 880 }">
-            <v-layer v-if="canvasImage" ref="vedomost">
+            <v-layer ref="vedomost">
               <v-image :config="{x: 0, y: 0, width: 880, height: 1242, image: canvasImage}"></v-image>
-              <v-text :config="{
-                x: 130, y: 235, text: from, fontSize: 24, fontFamily: 'Arial', fill: 'black', strokeWidth: 3
-              }"></v-text>
-              <v-text :config="{
-                x: 180, y: 290, text: to, fontSize: 24, fontFamily: 'Arial', fill: 'black', strokeWidth: 3
-              }"></v-text>
-              <v-text :config="{
-                x: 260, y: 360, text: number, fontSize: 24, fontFamily: 'Arial', fill: 'black', strokeWidth: 3
-              }"></v-text>
-              <v-text :config="{
-                x: 50, y: 496, text: weightA, width: 400, align: 'center', fontSize: 24, fontFamily: 'Arial', fill: 'black', strokeWidth: 3
-              }"></v-text>
-              <v-text :config="{
-                x: 440, y: 496, text: weightG, width: 400, fontSize: 24, align: 'center', fontFamily: 'Arial', fill: 'black', strokeWidth: 3
-              }"></v-text>
-              <v-text :config="{
-                x: 90, y: 1130, text: currentOperatorName, fontSize: 20, fontFamily: 'Arial', fill: 'black', strokeWidth: 3
-              }"></v-text>
+              <template v-if="canvasImageLoaded">
+                <v-text :config="{
+                      x: 130, y: 235, text: from, fontSize: 24, fontFamily: 'Arial', fill: 'black', strokeWidth: 3
+                    }"></v-text>
+                <v-text :config="{
+                      x: 180, y: 290, text: to, fontSize: 24, fontFamily: 'Arial', fill: 'black', strokeWidth: 3
+                    }"></v-text>
+                <v-text :config="{
+                      x: 260, y: 360, text: number, fontSize: 24, fontFamily: 'Arial', fill: 'black', strokeWidth: 3
+                    }"></v-text>
+                <v-text :config="{
+                      x: 50, y: 496, text: weightA, width: 400, align: 'center', fontSize: 24, fontFamily: 'Arial', fill: 'black', strokeWidth: 3
+                    }"></v-text>
+                <v-text :config="{
+                      x: 440, y: 496, text: weightG, width: 400, fontSize: 24, align: 'center', fontFamily: 'Arial', fill: 'black', strokeWidth: 3
+                    }"></v-text>
+                <v-text :config="{
+                      x: 90, y: 1130, text: currentOperatorName, fontSize: 20, fontFamily: 'Arial', fill: 'black', strokeWidth: 3
+                    }"></v-text>
+              </template>
             </v-layer>
           </v-stage>
-          <div class="vedomost-preview mt-1">
-            <img v-if="image" class="img-fluid" :src="image.src" />
+          <div ref="vedomostPreviewImage" class="vedomost-preview mt-1">
+            <img v-pre class="img-fluid" />
           </div>
         </div>
       </div>
@@ -98,18 +104,20 @@ export default {
       number: '',
       weightA: '0.000',
       weightG: '0.000',
-      canvasImage: undefined,
+      canvasImage: new Image(),
+      canvasImageLoaded: false,
       image: undefined,
       breakers: [],
       selectedOperator: undefined,
-      operators: this.$store.getters.selectPeople
+      operators: this.$store.getters.selectPeople,
+      pdfMaking: false
     }
   },
 
   methods: {
     setBackground() {
-      this.canvasImage = new Image()
       this.canvasImage.src = this.$sprites.vedomost
+      this.canvasImage.onload = (function() { this.canvasImageLoaded = true }).bind(this)
     },
     generateImage() {
       let self = this
@@ -118,6 +126,7 @@ export default {
         ref.getStage().toImage({
           width: 880, height: 1242, callback(image) {
             self.image = image
+            self.$refs.vedomostPreviewImage.children[0].src = image.src
           }
         })
       }
@@ -145,7 +154,25 @@ export default {
     print() {
       this.setPrintContainer()
       this.addDest()
-      setTimeout(window.print, 1000)
+      window.print()
+    },
+
+    savePdf() {
+      this.pdfMaking = true
+      let pdf = {
+        pageOrientation: 'landscape',
+        pageSize: 'A3',
+        content: [
+          {
+            columns: [
+              { width: 590, image: this.image.src },
+              { width: 590, image: this.image.src }
+            ]
+          }
+        ],
+        pageMargins: [10, 5, 10, 0]
+      }
+      pdfMake.createPdf(pdf).download('vedomost.pdf', () => this.pdfMaking = false)
     }
   },
 
@@ -162,7 +189,6 @@ export default {
 
   mounted() {
     this.setBackground()
-    this.generateImage()
   }
 
 }

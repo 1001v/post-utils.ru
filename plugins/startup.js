@@ -1,7 +1,6 @@
 import Vue from 'vue'
 
 Vue.use({
-    install(VI, options) {
-    
+    install(VI) {
     }
 })
