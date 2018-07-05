@@ -1,7 +1,8 @@
 <template>
     <div>
         <div class="text-center mb-3">
-            <div class="btn-group">
+            <i v-if="!images.length" class="fa fa-fw fa-4x fa-cog fa-spin"></i>
+            <div v-if="images.length" class="btn-group">
                 <button onclick="window.print()" class="btn btn-success">Печать
                     <i class="fa fa-fw fa-print"></i>
                 </button>
@@ -11,7 +12,7 @@
                 </button>
             </div>
         </div>
-        <div v-if="true" class="row">
+        <div v-if="images.length" class="row">
             <div class="col" v-for="(image, m) in images" :key="m + 'imageGenerated'">
                 <img :src="image.src" class="img-fluid" />
             </div>
@@ -47,7 +48,7 @@ export default {
     },
 
     mounted() {
-        this.generateImages()
+        setTimeout(this.generateImages.bind(this), 1000)
     },
 
     methods: {
