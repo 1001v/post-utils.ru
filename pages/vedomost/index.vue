@@ -159,6 +159,7 @@ export default {
 
     savePdf() {
       this.pdfMaking = true
+      this.addDest()
       let pdf = {
         pageOrientation: 'landscape',
         pageSize: 'A3',
