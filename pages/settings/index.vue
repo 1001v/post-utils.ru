@@ -165,8 +165,8 @@
               <i class="fa fa-fw fa-save"></i>
             </button>
           </div>
-          <b-alert v-if="settingsFileValid === true" variant="success" show>Настройки импортированы</b-alert>
-          <b-alert v-if="settingsFileValid === false" variant="danger" show>Ошибка импорта настроек: неверный файл</b-alert>
+          <b-alert class="mt-2" v-if="settingsFileValid === true" variant="success" show>Настройки импортированы</b-alert>
+          <b-alert class="mt-2" v-if="settingsFileValid === false" variant="danger" show>Ошибка импорта настроек: неверный файл</b-alert>
           <h5>Импорт настроек</h5>
           <p>Применить настройки из файла, экспортированного с другого компьютера.</p>
           <div>

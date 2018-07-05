@@ -16,7 +16,7 @@ module.exports = {
       {
         hid: 'description',
         name: 'description',
-        content: 'Почта России печать бланков'
+        content: 'Сайт, позволяющий формировать и печатать некоторые бланки и формы, необходимые в работе'
       },
       {
         hid: 'keywords',
