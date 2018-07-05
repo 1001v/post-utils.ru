@@ -98,19 +98,26 @@ const store = () => new Vuex.Store({
         context.commit('deleteStreet', id)
         context.dispatch('saveData')
       },
-      loadData(context) {
+      loadData(context, jsonData = undefined) {
         let data = {}
         try {
-            let ls = localStorage.getItem('data')
+            let ls = jsonData || localStorage.getItem('data')
             if (!ls) {
               throw new Error('localStorage is empty')
             }
             data = JSON.parse(ls)
         } catch(e) {
-            data = { people: [], opsNumber: '', savedDest: [], saveDest: true, streets: [] }
-            localStorage.setItem('data', JSON.stringify({ people: [], opsNumber: '', savedDest: [], saveDest: true, streets: [] }))
+            if (!jsonData) {
+              data = { people: [], opsNumber: '', savedDest: [], saveDest: true, streets: [] }
+              localStorage.setItem('data', JSON.stringify({ people: [], opsNumber: '', savedDest: [], saveDest: true, streets: [] }))
+            } else {
+              return
+            }
         }
         context.commit('setData', data)
+        if (jsonData) {
+          context.dispatch('saveData')
+        }
       },
       saveData(context) {
         localStorage.setItem('data', JSON.stringify(context.state))

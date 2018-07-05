@@ -157,6 +157,22 @@
             </tbody>
           </table>
         </b-tab>
+        <b-tab title="Перенос настроек">
+          <h5>Экспорт настроек</h5>
+          <p>Сохранить настройки программы в отдельный файл для переноса на другой компьютер.</p>
+          <div class="text-center">
+            <button @click="exportSettings()" class="btn btn-primary">Сохранить настройки
+              <i class="fa fa-fw fa-save"></i>
+            </button>
+          </div>
+          <b-alert v-if="settingsFileValid === true" variant="success" show>Настройки импортированы</b-alert>
+          <b-alert v-if="settingsFileValid === false" variant="danger" show>Ошибка импорта настроек: неверный файл</b-alert>
+          <h5>Импорт настроек</h5>
+          <p>Применить настройки из файла, экспортированного с другого компьютера.</p>
+          <div>
+            <b-form-file @input="importSettings()" ref="settingsFileForm" accept=".pu" v-model="settingsFile" placeholder="Выберите файл настроек..."></b-form-file>
+          </div>
+        </b-tab>
         <b-tab title="Сброс настроек">
           <h5>Сброс настроек</h5>
           <p>Данное действие приведет к полному сбросу всех сохраненных данных и настроек.</p>
@@ -179,6 +195,8 @@
 
 <script>
 
+import FileSaver from 'file-saver'
+
 export default {
 
   middleware: 'storage',
@@ -190,7 +208,9 @@ export default {
       saveDest: this.$store.state.saveDest,
       dest: '',
       street: '',
-      opsNumber: this.$store.state.opsNumber
+      opsNumber: this.$store.state.opsNumber,
+      settingsFile: undefined,
+      settingsFileValid: undefined
     }
   },
 
@@ -239,6 +259,37 @@ export default {
     resetSettings() {
       localStorage.removeItem('data')
       window.location.reload()
+    },
+    exportSettings() {
+      FileSaver.saveAs(new File([JSON.stringify(this.$store.state)], "settings.pu", {type: "text/plain;charset=utf-8"}))
+      
+    },
+    importSettings() {
+      if (!this.settingsFile) {
+        return
+      }
+      let reader = new FileReader()
+
+      reader.readAsText(this.settingsFile)
+
+      reader.onloadend = () => {
+        try {
+          let parsed = JSON.parse(reader.result)
+          if (['people', 'streets', 'savedDest', 'opsNumber', 'saveDest'].some(setting => !Object.keys(parsed).includes(setting))) {
+            throw new Error('Settings are invalid')
+          }
+          this.settingsFileValid = true
+          this.$store.dispatch('loadData', reader.result)
+          this.opsNumber = this.$store.state.opsNumber
+          this.saveDest = this.$store.state.saveDest
+        } catch (e) {
+          this.settingsFileValid = false
+        } finally {
+          this.$refs.settingsFileForm.reset()
+        }
+      
+        setTimeout(() => this.settingsFileValid = undefined, 8000)
+      }
     }
   },
 
