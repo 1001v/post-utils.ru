@@ -77,7 +77,7 @@
             <b-row>
               <b-col lg="10">
                 <b-input-group prepend="Улица">
-                  <b-form-input v-model="street" placeholder="Мясницкая ул." type="text" />
+                  <b-form-input @keyup.enter="addStreet()" v-model="street" placeholder="Мясницкая ул." type="text" />
                 </b-input-group>
               </b-col>
               <b-col lg="2">
