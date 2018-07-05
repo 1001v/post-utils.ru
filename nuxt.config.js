@@ -3,9 +3,6 @@ module.exports = {
   /*
    ** Headers of the page
    */
-  render: {
-    resourceHints: false
-  },
 
   head: {
     title: 'Печать почтовых бланков',
@@ -19,7 +16,24 @@ module.exports = {
       {
         hid: 'description',
         name: 'description',
-        content: 'Почтовые утилиты'
+        content: 'Почта России печать бланков'
+      },
+      {
+        hid: 'keywords',
+        name: 'Keywords',
+        content: 'Почта России, ярлык ф.20, ярлык форма 20, ф.20, форма 20, ф.30, форма 30, печать бланков, почтовые формы, почта ведомость, дм пакет, упаковочный лист, post utils, post-utils.ru, почтовые утилиты, сервис печати бланков'
+      },
+      {
+        hid: 'og_title',
+        name: 'og:title',
+        property: 'og:title',
+        content: 'Печать почтовых бланков для сотрудников'
+      },
+      {
+        hid: 'og_image',
+        name: 'og:image',
+        property: 'og:image',
+        content: 'http://post-utils.ru/logo.png'
       }
     ],
     link: [{

@@ -233,7 +233,7 @@ export default {
     }
   },
   updated() {
-    if (this.scrollBottom) {
+    if (this.scrollBottom && this.$refs.scrollableDiv) {
       this.$refs.scrollableDiv.scrollTop = this.$refs.scrollableDiv.scrollHeight
       this.scrollBottom = false
     }
